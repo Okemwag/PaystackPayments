@@ -8,10 +8,12 @@ def initialize_transaction(email: str, amount: int, **kwargs):
     url = "https://api.paystack.co/transaction/initialize"
     data = {
         "email": email,
-        "amount": f"{amount}"
+        "amount": f"{amount}",
+        "callback_url": kwargs.get("callback")
     }
     headers = {
-        "Authorization": f"Bearer {token}"
+        "Authorization": f"Bearer {token}",
+        "Content-Type": "application/json"
     }
     response = requests.post(url, headers=headers, data=data)
     return response.json()
@@ -20,7 +22,8 @@ def initialize_transaction(email: str, amount: int, **kwargs):
 def verify_transaction(ref: str):
     url = f"https://api.paystack.co/transaction/verify/{ref}"
     headers = {
-        "Authorization": f"Bearer {token}"
+        "Authorization": f"Bearer {token}",
+        "Content-Type": "application/json"
     }
     response = requests.get(url, headers=headers)
-    return response.json()
+    return response
