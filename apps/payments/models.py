@@ -12,12 +12,12 @@ class Payment(models.Model):
         max_digits=10,
         decimal_places=2
     )
-    reference = models.CharField(max_length=256, null=True)
+    reference = models.CharField(max_length=256, null=True, unique=True)
     finalized = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
 
 class UserAccount(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="account")
     balance = models.DecimalField(max_digits=10, decimal_places=2)
